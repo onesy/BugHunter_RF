@@ -17,22 +17,5 @@ class framework{
     public static function getInstance(){
         return new framework();
     }
-    
-    public static function Process($controller,$action) {
-        $ControllerObj = null;
-        try{
-            $ControllerObj = new $controller();
-            
-        }  catch (Exception $e){
-            throw new NoSuchControllerException();
-        }
-        
-        try{
-            $ControllerObj->$action();
-        }  catch (Exception $e){
-            throw  new NOSuchActionException();
-        }
-        
-    }
 }
 ?>

@@ -18,4 +18,7 @@ class NoSuchControllerException extends Exception{
 class NOSuchActionException extends Exception{
     
 }
+class NotInitYetException extends Exception{
+    
+}
 ?>

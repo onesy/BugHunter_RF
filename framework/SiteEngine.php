@@ -7,6 +7,8 @@
 
 class SiteEngine {
     
+    private $isInit = false;
+    
     private $host = '';
     
     private $path = null;
@@ -19,6 +21,14 @@ class SiteEngine {
         $this->host = $_SERVER[SERVER_NAME];
         $this->path = split('/', URI_Remove_Params());
         $this->CheckAndSetCtlAndAction();
+        $this->isInit = true;
+    }
+    
+    public function Run(){
+        if($this->isInit == false){
+            throw new NotInitYetException();
+        }
+        self::Process(Register::getVar('controller'), Register::getVar('action'));
     }
     
     public function URI_Remove_Params(){
@@ -31,6 +41,22 @@ class SiteEngine {
         $action = $this->path[1];
         Register::setVar('controller', $controller);
         Register::setVar('action', $action);
+    }
+    
+    public static function Process($controller,$action) {
+        try{
+            $ControllerObj = new $controller();
+            
+        }  catch (Exception $e){
+            throw new NoSuchControllerException();
+        }
+        
+        try{
+            $ControllerObj->$action();
+        }  catch (Exception $e){
+            throw new NOSuchActionException();
+        }
+        
     }
 
     /**
@@ -50,7 +76,7 @@ class SiteEngine {
      * @param type $src
      * @return type
      */
-    function getVarName(&$src) {
+    public function getVarName(&$src) {
         $varName = '';
         $save = $src;
         $allvar = $GLOBALS;
