@@ -11,8 +11,8 @@ require 'Common.inc.php';
 if (defined(DEBUG) && DEBUG) {
     require 'Debug.inc.php';
 }
-
+//加载框架
 //--------------
-
+require FRAMEWORK_ROOT . 'framework.php';
 //--------------
 ?>
